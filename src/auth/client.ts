@@ -23,7 +23,20 @@ async function loadCredentialsFromFile(): Promise<OAuthCredentials> {
 }
 
 async function loadCredentialsWithFallback(): Promise<OAuthCredentials> {
-  // Load credentials from file (CLI param, env var, or default path)
+  // Priority 1: Environment variables
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const redirectUris = process.env.GOOGLE_REDIRECT_URIS;
+
+  if (clientId && clientSecret) {
+    return {
+      client_id: clientId,
+      client_secret: clientSecret,
+      redirect_uris: redirectUris ? redirectUris.split(',').map(uri => uri.trim()) : ['http://localhost:3000/oauth2callback']
+    };
+  }
+
+  // Priority 2: Load credentials from file (CLI param, env var, or default path)
   try {
     return await loadCredentialsFromFile();
   } catch (fileError) {

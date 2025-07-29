@@ -66,11 +66,16 @@ export function generateCredentialsErrorMessage(): string {
   return `
 OAuth credentials not found. Please provide credentials using one of these methods:
 
-1. Environment variable:
+1. Environment variables (recommended for deployment):
+   export GOOGLE_CLIENT_ID="your_client_id.apps.googleusercontent.com"
+   export GOOGLE_CLIENT_SECRET="your_client_secret"
+   export GOOGLE_REDIRECT_URIS="http://localhost:3000/oauth2callback"
+
+2. Credentials file path:
    Set GOOGLE_OAUTH_CREDENTIALS to the path of your credentials file:
    export GOOGLE_OAUTH_CREDENTIALS="/path/to/gcp-oauth.keys.json"
 
-2. Default file path:
+3. Default file path:
    Place your gcp-oauth.keys.json file in the package root directory.
 
 Token storage:
